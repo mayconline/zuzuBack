@@ -15,6 +15,17 @@ module.exports ={
         }
     },
 
+    async getSlidePrincipal(req,res){
+        try{
+            const bolos = await Bolo.find({}, '_id url descricao').sort('-likes')
+
+            return res.json(bolos);
+        }
+        catch(e){
+            return res.status(404).send(`${e} Não foi Encontrado`);
+        }
+    },
+
     async cadastro(req,res){
         try{
             console.log(req.file)
