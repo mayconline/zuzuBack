@@ -20,6 +20,12 @@ const UsuarioSchemma = new mongoose.Schema({
         select:false,
         trim:true
     },
+    staff:{  
+        type:String,
+        required:true,
+        default:"user"
+
+    }
 },
 {timestamps:true}
 
