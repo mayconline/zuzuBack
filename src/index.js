@@ -30,5 +30,6 @@ mongoose.connect( MONGO_URL, { useNewUrlParser: true, useCreateIndex: true, }).t
 
 
 app.use('/bolos', require('./routes/BoloRouter'));
+app.use('/usuarios', require('./routes/UsuarioRouter'));
 
 app.listen(PORT);
