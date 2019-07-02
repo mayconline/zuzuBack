@@ -1,6 +1,7 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const {gerarToken}= require('../middlewares/auth');
+const sendgrid = require('../middlewares/sendgrid');
 
 
 module.exports ={
@@ -31,7 +32,15 @@ module.exports ={
 
             const registro = await Usuario.create(req.body);
 
-            const jwtToken = await gerarToken(registro._id);
+           await sendgrid.send(req.body.usuario, 'Bem vindo a Zuzu Cakes', 
+             `<p>Seja Bem vindo ${req.body.nome}, Visite nosso site e se delicie com nossos bolos deliciosos
+              feitos especialmente para você, não esqueça de nos avaliar, 
+              sua opnião é muito importante para nós</p>
+              <p>Desejamos que tenha um Excelente dia</p>
+              <Strong>Equipe Zuzu Cakes</Strong>  
+              `)
+
+            const jwtToken = await gerarToken(registro._id, registro.staff);
              
             return res.send({registro, jwtToken})
         }
@@ -57,10 +66,10 @@ module.exports ={
 
              user.senha = undefined;
 
-            const jwtToken = await gerarToken(user._id);
-            
-                return res.send({user, jwtToken, status:`${user.nome} está online`});
-              
+                    const jwtToken = await gerarToken(user._id, user.staff);
+
+                    return res.send({user, jwtToken, status:`${user.nome} está online`});
+                     
 
         }
 
@@ -82,10 +91,40 @@ module.exports ={
                             usuario:req.body.usuario,
                             senha:senhaCrypt
                 });
+
+               
             
                 const alterado = await Usuario.findById(req.params.id);
-            return res.json({alterado})
+
+                const jwtToken = await gerarToken(alterado._id, alterado.staff);
+
+            return res.json({alterado, jwtToken})
            
+        }
+        catch(e){
+            return res.status(400).send(`${e} Favor verifique os dados digitados`);
+        };  
+        
+    },
+    async alterarStaff(req,res){
+        try{
+            let usuario = await Usuario.findById(req.params.id);
+             if(!usuario) return res.status(401).send('usuario nao registrado');
+
+           
+              const senhaCrypt =  await bcrypt.hash(req.body.senha, 10);
+                
+                await usuario.updateOne({
+                            nome:req.body.nome,
+                            usuario:req.body.usuario,
+                            senha:senhaCrypt,
+                            staff:req.body.staff
+                });
+                const alterado = await Usuario.findById(req.params.id);
+
+                const jwtToken = await gerarToken(alterado._id, alterado.staff);
+                        return res.json({alterado, jwtToken})
+               
         }
         catch(e){
             return res.status(400).send(`${e} Favor verifique os dados digitados`);
@@ -111,4 +150,13 @@ module.exports ={
 
 
     },
+
+    async recPass(req, res){
+        try{
+            
+        }
+        catch(e){
+            return e;
+        }
+    }
 };

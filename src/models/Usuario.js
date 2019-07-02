@@ -23,6 +23,7 @@ const UsuarioSchemma = new mongoose.Schema({
     staff:{  
         type:String,
         required:true,
+        enum:['user','admin'],
         default:"user"
 
     }
