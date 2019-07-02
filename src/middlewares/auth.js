@@ -15,7 +15,7 @@ module.exports = {
         jwt.verify(authHeader, JWTTOKEN,(err, decoded)=>{
             if(err) return res.status(401).send({error:"Token Invalido"})
     
-           
+          
             //pega o id do usuario pelo token decode
             req.userId = decoded.userId;
             req.staff = decoded.staff;
@@ -34,7 +34,7 @@ module.exports = {
             
                    
                         else {
-                            console.log(decoded)
+                          
                             if( decoded.staff && decoded.staff.includes('admin')){
                                 return next();
                             } else {
@@ -50,7 +50,9 @@ module.exports = {
             }
        
 
-    }
+    },
+
+
 
     
 

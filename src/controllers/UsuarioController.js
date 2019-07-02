@@ -16,9 +16,17 @@ module.exports ={
     },
     
     async getId(req,res){
-        const user = await Usuario.findById(req.params.id).select('+senha');
 
-        return res.json(user);
+        const usuario = await Usuario.findById(req.params.id).select('+senha');
+
+        //verifica se é admin, pode ver tudo,//
+        //se for usuario, precisa ser o proprio id//
+        
+        if(req.userId!=usuario._id && req.staff!='admin') {           
+            return res.status(401).send({error: "token nao pertence ao usuario"});
+           }
+
+        return res.json(usuario);
     },
 
     async registro (req, res){
@@ -82,7 +90,13 @@ module.exports ={
         try{
             let usuario = await Usuario.findById(req.params.id);
              if(!usuario) return res.status(401).send('usuario nao registrado');
-
+              
+            //verifica no token se é admin, pode ver tudo,//
+        //se for usuario, precisa ser o proprio id//
+        
+        if(req.userId!=usuario._id && req.staff!='admin') {           
+            return res.status(401).send({error: "token nao pertence ao usuario"});
+           }
            
               const senhaCrypt =  await bcrypt.hash(req.body.senha, 10);
                 
@@ -112,6 +126,8 @@ module.exports ={
              if(!usuario) return res.status(401).send('usuario nao registrado');
 
            
+
+
               const senhaCrypt =  await bcrypt.hash(req.body.senha, 10);
                 
                 await usuario.updateOne({
@@ -138,10 +154,20 @@ module.exports ={
             
             let usuario = await Usuario.findById(req.params.id);
 
-            
-             await usuario.remove();
 
-             return(res.json({deletado:true}))
+            //verifica se é admin, pode ver tudo,//
+        //se for usuario, precisa ser o proprio id//
+        
+        if(req.userId!=usuario._id && req.staff!='admin') {           
+            return res.status(401).send({error: "token nao pertence ao usuario"});
+           }
+
+
+                  await usuario.remove();
+
+                    return(res.json({deletado:true}))
+       
+            
         }
         catch(e){
             return res.status(400).send(`${e} Não foi encontrado`);
@@ -151,12 +177,4 @@ module.exports ={
 
     },
 
-    async recPass(req, res){
-        try{
-            
-        }
-        catch(e){
-            return e;
-        }
-    }
 };
