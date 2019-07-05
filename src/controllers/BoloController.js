@@ -105,8 +105,9 @@ module.exports ={
         try{
             //transforma em LowerCase
           const tags =  await tag.toLowerCase();
-                //consulta no banco
-             const busca = await Bolo.find({tags});
+                //consulta no banco na coluna index definina no model 'tags'//
+           const busca = await Bolo.find({$text:{ $search:tags}})
+
                              return res.json(busca);
  
         }
