@@ -95,10 +95,19 @@ module.exports ={
         
     },
     async busca(req,res){
-       
+        
+        const {tag} = req.params;
+        //verifica se veio parametro
+        if(!tag){
+            return res.status(401).send({error: "pesquisa vazia"});
+        }
+
         try{
-         const busca = await Bolo.find({tags:req.params.tag});
-         return res.json(busca);
+            //transforma em LowerCase
+          const tags =  await tag.toLowerCase();
+                //consulta no banco
+             const busca = await Bolo.find({tags});
+                             return res.json(busca);
  
         }
         catch(e){

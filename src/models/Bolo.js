@@ -7,7 +7,8 @@ const BoloSchema = new mongoose.Schema({
     },
     tags:[{
         type:String,
-        required:true
+        required:true,
+        text:true
     }],
     likes:{
         type:Number,
