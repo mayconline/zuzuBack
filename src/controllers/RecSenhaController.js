@@ -80,9 +80,9 @@ module.exports={
     },
 
    async getAll(req, res){
-        const registro = await RecSenha.find();
+        const registro = await RecSenha.find().sort('-createdAt');
             return res.json(registro);
-    }
+    },
 
 
 }
