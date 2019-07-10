@@ -16,6 +16,6 @@ const Depoimento = new mongoose.Schema({
        default:0,
        required:true
    }
-},{timestamps})
+},{timestamps:true})
 
 module.exports = mongoose.model('Depoimento',Depoimento)

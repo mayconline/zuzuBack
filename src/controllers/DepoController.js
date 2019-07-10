@@ -47,6 +47,7 @@ module.exports={
     async getAll(req, res){
         try{
             const depoimentos = await Depoimento.find().sort('-createdAt')
+            .populate('idusuario','nome')
 
             return res.json(depoimentos);
         }
