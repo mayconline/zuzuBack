@@ -28,7 +28,7 @@ module.exports ={
 
     async cadastro(req,res){
         try{
-            console.log(req.file)
+            
 
             const {originalname, bytes:size, key, secure_url:url='', public_id} = req.file;
             const {descricao, tags} = req.body;
