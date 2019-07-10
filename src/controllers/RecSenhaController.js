@@ -13,6 +13,9 @@ module.exports={
             if(!usuario) return res.status(400).send("Favor insira os dados de login");
 
         try{
+
+            await usuario.toLowerCase();
+            
             const user = await Usuario.findOne({usuario})
                  if(!user) return res.status(401).send('usuario nao registrado');
 
@@ -80,9 +83,9 @@ module.exports={
     },
 
    async getAll(req, res){
-        const registro = await RecSenha.find();
+        const registro = await RecSenha.find().sort('-createdAt');
             return res.json(registro);
-    }
+    },
 
 
 }

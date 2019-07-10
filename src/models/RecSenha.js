@@ -9,6 +9,13 @@ const RecSenha = new mongoose.Schema({
         type:String,
         required:true
     }
-})
+   
+},{timestamps: true}
+
+)
+//deleta o documento apos o tempo definido em expire //
+RecSenha.index({"createdAt":1},{expireAfterSeconds:86400})
+
 
 module.exports = mongoose.model('RecSenha',RecSenha)
+
