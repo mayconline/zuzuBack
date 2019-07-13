@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const BoloSchema = new mongoose.Schema({
     descricao:{ 
         type:String,
