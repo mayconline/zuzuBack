@@ -9,10 +9,19 @@ module.exports={
         const {iduser}= req.params;
         const {originalname, bytes:size, key, secure_url:url='', public_id} = req.file;
 
+        
+
         try{
 
             let usuario = await Usuario.findById(iduser);
             if(!usuario) return res.status(401).send('usuario nao registrado');
+
+             //verifica se é admin, pode ver tudo,//
+             //se for usuario, precisa ser o proprio id//
+        
+                 if(req.userId!=usuario._id && req.staff!='admin') {           
+                     return res.status(401).send({error: "token nao pertence ao usuario"});
+                 }
 
             const cadastro = await AvatarUser.create({                
 	            url,	
@@ -46,6 +55,14 @@ module.exports={
             let usuario = await Usuario.findById(iduser)
             .populate('avatar','url public_id');
                      if(!usuario) return res.status(401).send('usuario nao registrado');
+
+            //verifica se é admin, pode ver tudo,//
+             //se for usuario, precisa ser o proprio id//
+        
+             if(req.userId!=usuario._id && req.staff!='admin') {           
+                return res.status(401).send({error: "token nao pertence ao usuario"});
+            }
+
 
             //apaga a foto do storage//
             if(TYPE_STORAGE == 'online') {
@@ -95,7 +112,13 @@ module.exports={
              .populate('avatar','url public_id');
             if(!usuario) return res.status(401).send('usuario nao registrado');
 
-           
+            //verifica se é admin, pode ver tudo,//
+             //se for usuario, precisa ser o proprio id//
+        
+             if(req.userId!=usuario._id && req.staff!='admin') {           
+                return res.status(401).send({error: "token nao pertence ao usuario"});
+            }
+
             //apaga a foto do storage//
             if(TYPE_STORAGE == 'online') {
                 await cloudinary.v2.uploader.destroy(usuario.avatar.public_id);
