@@ -26,6 +26,11 @@ const UsuarioSchemma = new mongoose.Schema({
         enum:['user','admin'],
         default:"user"
 
+    },
+    avatar:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'AvatarUser',
+        default:null      
     }
 },
 {timestamps:true}

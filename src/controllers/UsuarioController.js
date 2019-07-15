@@ -7,7 +7,8 @@ const sendgrid = require('../middlewares/sendgrid');
 module.exports ={
 
     async getAll(req,res){
-        const user = await Usuario.find().sort('-createdAt');
+        const user = await Usuario.find().sort('-createdAt')
+        .populate('avatar','url public_id');
             return res.json(user);
 
             //exemplo pegando o userId pelo token
@@ -17,7 +18,8 @@ module.exports ={
     
     async getId(req,res){
 
-        const usuario = await Usuario.findById(req.params.id).select('+senha');
+        const usuario = await Usuario.findById(req.params.id).select('+senha')
+.populate('avatar','url public_id')
 
         //verifica se é admin, pode ver tudo,//
         //se for usuario, precisa ser o proprio id//
