@@ -1,4 +1,6 @@
 const Depoimento = require('../models/Depoimento');
+const AvatarUser = require('../models/AvatarUser');
+const Usuario = require('../models/Usuario');
 
 module.exports={
 
@@ -47,9 +49,17 @@ module.exports={
     async getAll(req, res){
         try{
             const depoimentos = await Depoimento.find().sort('-createdAt')
-            .populate('idusuario','nome')
-
-            return res.json(depoimentos);
+            .populate({
+                path:'idusuario',
+                select:'nome avatar',
+                    populate:{
+                        path:'avatar',
+                        select:'url'
+                    }
+            })
+                      
+            res.json(depoimentos)
+                    
         }
         catch(e){
             return res.status(404).send(`${e} Não foi Encontrado`);
