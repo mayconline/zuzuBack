@@ -127,7 +127,7 @@ module.exports ={
             let usuario = await Usuario.findById(req.params.id);
              if(!usuario) return res.status(401).send('usuario nao registrado');
 
-                if(usuario.staff==='user'){
+                if(usuario.staff=='user'){
                     await usuario.updateOne({staff:'admin' });
                         return res.json({ok:true})
                          }
