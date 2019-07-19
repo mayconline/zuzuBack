@@ -1,7 +1,11 @@
 const Usuario = require('../models/Usuario');
+const AvatarUser = require('../models/AvatarUser');
 const bcrypt = require('bcrypt');
 const {gerarToken}= require('../middlewares/auth');
 const sendgrid = require('../middlewares/sendgrid');
+
+const cloudinary = require('cloudinary');
+const {TYPE_STORAGE} = process.env;
 
 
 module.exports ={
@@ -145,19 +149,29 @@ module.exports ={
     async delete(req,res){
 
         try{
-            
-            let usuario = await Usuario.findById(req.params.id);
+             //procura o usuario//
+            let usuario = await Usuario.findById(req.params.id)
+            .populate('avatar','url public_id');
+            if(!usuario) return res.status(401).send('usuario nao registrado');
 
 
             //verifica se é admin, pode ver tudo,//
-        //se for usuario, precisa ser o proprio id//
-        
+        //se for usuario, precisa ser o proprio id//       
         if(req.userId!=usuario._id && req.staff!='admin') {           
             return res.status(401).send({error: "token nao pertence ao usuario"});
            }
 
+            //apaga a foto do storage//
+            if(TYPE_STORAGE == 'online') {
+                await cloudinary.v2.uploader.destroy(usuario.avatar.public_id);
+            }
 
-                  await usuario.remove();
+             //apaga a foto do banco de dados//
+             let foto = await AvatarUser.findById(usuario.avatar._id);
+             await foto.remove();
+
+                //deleta usuario
+                await usuario.remove();
 
                     return(res.json({deletado:true}))
        
