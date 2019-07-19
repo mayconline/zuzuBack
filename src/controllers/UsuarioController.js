@@ -1,5 +1,6 @@
 const Usuario = require('../models/Usuario');
 const AvatarUser = require('../models/AvatarUser');
+const Depoimento = require('../models/Depoimento');
 const bcrypt = require('bcrypt');
 const {gerarToken}= require('../middlewares/auth');
 const sendgrid = require('../middlewares/sendgrid');
@@ -161,14 +162,26 @@ module.exports ={
             return res.status(401).send({error: "token nao pertence ao usuario"});
            }
 
+          
+
             //apaga a foto do storage//
-            if(TYPE_STORAGE == 'online') {
+            if(TYPE_STORAGE == 'online' && usuario.avatar!=null) {
                 await cloudinary.v2.uploader.destroy(usuario.avatar.public_id);
             }
 
              //apaga a foto do banco de dados//
-             let foto = await AvatarUser.findById(usuario.avatar._id);
-             await foto.remove();
+            if(usuario.avatar!=null){
+                let foto = await AvatarUser.findById(usuario.avatar._id);
+                await foto.remove();
+            }
+            
+
+             //procura depoimento do usuario pra apagar
+             let depoimento = Depoimento.findOne({
+                 idusuario:usuario._id
+             })
+             await depoimento.remove();
+            
 
                 //deleta usuario
                 await usuario.remove();
