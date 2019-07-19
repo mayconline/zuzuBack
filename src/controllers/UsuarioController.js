@@ -177,10 +177,14 @@ module.exports ={
             
 
              //procura depoimento do usuario pra apagar
-             let depoimento = Depoimento.findOne({
+             let depoimento = await Depoimento.findOne({
                  idusuario:usuario._id
              })
-             await depoimento.remove();
+          
+            if(depoimento){
+                await depoimento.remove();
+            }
+             
             
 
                 //deleta usuario
