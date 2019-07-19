@@ -127,21 +127,13 @@ module.exports ={
             let usuario = await Usuario.findById(req.params.id);
              if(!usuario) return res.status(401).send('usuario nao registrado');
 
-           
-
-
-              const senhaCrypt =  await bcrypt.hash(req.body.senha, 10);
-                
-                await usuario.updateOne({
-                            nome:req.body.nome,
-                            usuario:req.body.usuario,
-                            senha:senhaCrypt,
-                            staff:req.body.staff
-                });
-                const alterado = await Usuario.findById(req.params.id);
-
-                const jwtToken = await gerarToken(alterado._id, alterado.staff);
-                        return res.json({alterado, jwtToken})
+                if(usuario.staff==='user'){
+                    await usuario.updateOne({staff:'admin' });
+                        return res.json({ok:true})
+                         }
+                else
+                    await usuario.updateOne({staff:'user' });
+                         return res.json({ok:true})                    
                
         }
         catch(e){
