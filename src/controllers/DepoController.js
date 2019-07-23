@@ -64,6 +64,49 @@ module.exports={
         catch(e){
             return res.status(404).send(`${e} Não foi Encontrado`);
         }
+    },
+
+    async getTrue(req, res){
+        try{
+            const depoimentos = await Depoimento.find({active:true}).sort('-createdAt')
+            .populate({
+                path:'idusuario',
+                select:'nome avatar',
+                    populate:{
+                        path:'avatar',
+                        select:'url'
+                    }
+            })
+                      
+            res.json(depoimentos)
+                    
+        }
+        catch(e){
+            return res.status(404).send(`${e} Não foi Encontrado`);
+        }
+    },
+    async alterarActive(req, res){
+
+        if(!req.userId) {return res.status(401).send({error: "faltando token"});}     
+        
+        try{
+            let depo = await Depoimento.findById(req.params.id);
+                if(!depo) return res.status(401).send('depoimento não existe');
+
+            if(depo.active==false){
+                await depo.updateOne({active:true})
+                return res.json({ok:true})
+            }
+            else
+             await depo.updateOne({active:false})
+             return res.json({ok:true})
+
+
+            
+        }
+        catch(e){
+            return res.status(400).send({error:`${e} Verifique os dados digitados`});
+        }
     }
 
 

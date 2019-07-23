@@ -15,6 +15,10 @@ const Depoimento = new mongoose.Schema({
        type:Number,
        default:0,
        required:true
+   },
+   active:{
+       type:Boolean,
+       default:false
    }
 },{timestamps:true})
 
