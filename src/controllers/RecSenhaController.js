@@ -28,13 +28,16 @@ module.exports={
 
 
 
+
                  await sendgrid.send(user.usuario, 'Redefinição de Senha', 
                  `<p>Olá ${user.nome}, Você solicitou uma troca de senha</p>
                   <p>Clique no link abaixo para alterar a senha</p>
 
                   <p>
+
                   <a href='https://zuzucakes.netlify.com/usuarios/${registro._id}/resetar-senha' rel='noopener noreferrer' target='_blank'>
                   https://zuzucakes.netlify.com/usuarios/${registro._id}/resetar-senha
+                 
                   </a>
                  </p>
                  <p> Este link expira em 24 horas, Caso não tenha sido você, favor desconsiderar</p>
