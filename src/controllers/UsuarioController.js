@@ -53,6 +53,7 @@ module.exports ={
               sua opnião é muito importante para nós</p>
               <p>Desejamos que tenha um Excelente dia</p>
               <Strong>Equipe Zuzu Cakes</Strong>  
+              <span>https://zuzucakes.netlify.com</span>
               `)
 
             const jwtToken = await gerarToken(registro._id, registro.staff);

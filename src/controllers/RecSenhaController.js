@@ -33,8 +33,8 @@ module.exports={
                   <p>Clique no link abaixo para alterar a senha</p>
 
                   <p>
-                  <a href='http://localhost:3000/usuarios/${registro._id}/resetar-senha' rel='noopener noreferrer' target='_blank'>
-                        http://localhost:3000/usuarios/${registro._id}/resetar-senha
+                  <a href='https://zuzucakes.netlify.com/usuarios/${registro._id}/resetar-senha' rel='noopener noreferrer' target='_blank'>
+                  https://zuzucakes.netlify.com/usuarios/${registro._id}/resetar-senha
                   </a>
                  </p>
                  <p> Este link expira em 24 horas, Caso não tenha sido você, favor desconsiderar</p>
