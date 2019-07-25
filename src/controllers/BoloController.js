@@ -32,7 +32,7 @@ module.exports ={
 
             const {originalname, bytes:size, key, secure_url:url='', public_id} = req.file;
             const {descricao, tags} = req.body;
-
+            
             const cadastro = await Bolo.create({
 
                 descricao,
@@ -43,6 +43,8 @@ module.exports ={
                 key,
                 public_id
             });
+
+        
 
             return res.json(cadastro);
         }

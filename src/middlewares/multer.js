@@ -28,7 +28,14 @@ const TypeStorage = {
                 cb(null,file.key);
             })
         },
-       transformation:{quality: "auto:good"}
+       transformation:{
+           quality: "auto:eco",
+           width: 768,    
+           height:1024,  
+           crop:'limit', 
+           fetch_format:'auto',
+           dpr:'auto'
+            }
     })
 }
 

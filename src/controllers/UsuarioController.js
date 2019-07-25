@@ -48,12 +48,17 @@ module.exports ={
             const registro = await Usuario.create(req.body);
 
            await sendgrid.send(req.body.usuario, 'Bem vindo a Zuzu Cakes', 
-             `<p>Seja Bem vindo ${req.body.nome}, Visite nosso site e se delicie com nossos bolos deliciosos
+             `<p>Seja Bem vindo ${req.body.nome}, Visite nosso site: 
+
+             <a href='https://zuzucakes.netlify.com' rel='noopener noreferrer' target='_blank'>
+                  https://zuzucakes.netlify.com   </a>             
+                 
+              e se delicie com nossos bolos deliciosos
               feitos especialmente para você, não esqueça de nos avaliar, 
               sua opnião é muito importante para nós</p>
               <p>Desejamos que tenha um Excelente dia</p>
               <Strong>Equipe Zuzu Cakes</Strong>  
-              <span>https://zuzucakes.netlify.com</span>
+              
               `)
 
             const jwtToken = await gerarToken(registro._id, registro.staff);
