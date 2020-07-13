@@ -30,8 +30,8 @@ module.exports = {
 
                   <p>
 
-                  <a href='https://zuzucakes.netlify.com/usuarios/${registro._id}/resetar-senha' rel='noopener noreferrer' target='_blank'>
-                  https://zuzucakes.netlify.com/usuarios/${registro._id}/resetar-senha
+                  <a href='https://zuzucakes.netlify.app/usuarios/${registro._id}/resetar-senha' rel='noopener noreferrer' target='_blank'>
+                  https://zuzucakes.netlify.app/usuarios/${registro._id}/resetar-senha
                  
                   </a>
                  </p>
