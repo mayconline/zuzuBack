@@ -23,7 +23,11 @@ const { MONGO_URL, PORT } = process.env;
 //conecta ao mongo
 mongoose.Promise = global.Promise;
 mongoose
-  .connect(MONGO_URL, { useNewUrlParser: true, useCreateIndex: true })
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
   .then(
     () => {
       console.log('Conectado ao db com sucesso');
