@@ -15,7 +15,9 @@ module.exports = {
 
   async getSlidePrincipal(req, res) {
     try {
-      const bolos = await Bolo.find({}, '_id url descricao').sort('-likes');
+      const bolos = await Bolo.find({}, '_id url descricao createdAt').sort(
+        '-createdAt',
+      );
 
       return res.json(bolos);
     } catch (e) {
