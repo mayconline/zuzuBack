@@ -4,6 +4,7 @@ const Depoimento = require('../models/Depoimento');
 const bcrypt = require('bcrypt');
 const { gerarToken } = require('../middlewares/auth');
 const sendgrid = require('../middlewares/sendgrid');
+const { register_template } = require('../templates-email/register');
 
 const cloudinary = require('cloudinary');
 const { TYPE_STORAGE } = process.env;
@@ -44,22 +45,9 @@ module.exports = {
 
       const registro = await Usuario.create(req.body);
 
-      await sendgrid.send(
-        req.body.usuario,
-        'Bem vindo a Zuzu Cakes',
-        `<p>Seja Bem vindo ${req.body.nome}, Visite nosso site: 
+      const { html } = await register_template(req.body.nome);
 
-             <a href='https://zuzucakes.netlify.app' rel='noopener noreferrer' target='_blank'>
-                  https://zuzucakes.netlify.app   </a>             
-                 
-              e se delicie com nossos bolos deliciosos
-              feitos especialmente para você, não esqueça de nos avaliar, 
-              sua opnião é muito importante para nós</p>
-              <p>Desejamos que tenha um Excelente dia</p>
-              <Strong>Equipe Zuzu Cakes</Strong>  
-              
-              `,
-      );
+      await sendgrid.send(req.body.usuario, 'Bem vindo a Zuzu Cakes', html);
 
       const jwtToken = await gerarToken(registro._id, registro.staff);
 
@@ -177,6 +165,20 @@ module.exports = {
       return res.json({ deletado: true });
     } catch (e) {
       return res.status(400).send(`${e} Não foi encontrado`);
+    }
+  },
+
+  async resendEmail(req, res) {
+    const { usuario, nome } = req.body;
+
+    try {
+      const { html } = await register_template(nome);
+
+      await sendgrid.send(usuario, 'Bem vindo a Zuzu Cakes', html);
+
+      return res.send({ send: true });
+    } catch (e) {
+      return res.status(400).send(`${e} Email Não foi encontrado`);
     }
   },
 };

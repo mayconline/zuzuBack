@@ -1,0 +1,11 @@
+  <mj-section>
+    <mj-column>
+      <mj-social>
+        <mj-social-element alt="whatsapp" href="https://wa.me/5521967524431?text=Ola" icon-size="18px" src="https://imgur.com/KlGcYwQ.png" />
+        <mj-social-element alt="Facebook" href="https://web.facebook.com/Zuzu-Cakes-105780954126464" icon-size="16px" src="https://i.imgur.com/bN4C1OZ.png" />
+        <mj-social-element alt="Instagram" href="https://www.instagram.com/zuzucake.s/" icon-size="16px" src="https://i.imgur.com/lKQvfYO.png" />
+      </mj-social>
+      <mj-text align="center" font-size="12px" line-height="16px" color="#8B95A5">© 2020 Zuzu Cakes
+      </mj-text>
+    </mj-column>
+  </mj-section>

@@ -13,6 +13,7 @@ routes.get('/', isAdmin, verificarToken, UserControl.getAll);
 routes.get('/:id', verificarToken, UserControl.getId);
 routes.post('/registro', UserControl.registro);
 routes.post('/login', UserControl.login);
+routes.post('/resend-email', isAdmin, verificarToken, UserControl.resendEmail);
 routes.put('/:id/alterar', verificarToken, UserControl.alterar);
 routes.put('/:id/altstaff', isAdmin, verificarToken, UserControl.alterarStaff);
 routes.delete('/:id', verificarToken, UserControl.delete);
