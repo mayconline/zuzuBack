@@ -1,12 +1,12 @@
+//arquvo de variaveis .env
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
-
-//arquvo de variaveis .env
-require('dotenv').config();
 
 //debug do express morgan
 app.use(morgan('dev'));
@@ -21,25 +21,19 @@ app.use(express.urlencoded({ extended: true }));
 const { MONGO_URL, PORT } = process.env;
 
 //conecta ao mongo
-mongoose.Promise = global.Promise;
-mongoose
-  .connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
-  .then(
-    () => {
-      console.log('Conectado ao db com sucesso');
-    },
-    err => {
-      console.log('nao foi possivel conectar a data base ' + err);
-    },
-  );
 
-app.use('/bolos', require('./routes/BoloRouter'));
-app.use('/usuarios', require('./routes/UsuarioRouter'));
-app.use('/depoimentos', require('./routes/DepoRouter'));
-app.use('/avataruser', require('./routes/AvatarRouter'));
+mongoose.connect(MONGO_URL).then(
+  () => {
+    console.log('Conectado ao db com sucesso');
 
-app.listen(PORT);
+    app.use('/bolos', require('./routes/BoloRouter'));
+    app.use('/usuarios', require('./routes/UsuarioRouter'));
+    app.use('/depoimentos', require('./routes/DepoRouter'));
+    app.use('/avataruser', require('./routes/AvatarRouter'));
+
+    app.listen(PORT);
+  },
+  err => {
+    console.log('nao foi possivel conectar a data base ' + err);
+  },
+);
